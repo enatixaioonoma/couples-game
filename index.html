@@ -21,7 +21,6 @@ body{
     padding:20px;
 }
 
-/* screens */
 .hidden{ display:none; }
 
 .container{
@@ -29,7 +28,7 @@ body{
     max-width:420px;
 }
 
-/* HOME MENU */
+/* MENU */
 .menuGrid{
     display:grid;
     grid-template-columns: 1fr 1fr;
@@ -44,13 +43,8 @@ body{
     display:flex;
     align-items:center;
     justify-content:center;
-    font-size:18px;
+    font-size:16px;
     cursor:pointer;
-    transition:0.2s;
-}
-
-.menuBox:active{
-    transform:scale(0.96);
 }
 
 .box1{background:#3b82f6;}
@@ -62,6 +56,7 @@ body{
 .player{
     color:#ff4da6;
     margin-bottom:5px;
+    font-size:18px;
 }
 
 .round{
@@ -132,10 +127,12 @@ button{
 
 <h1>Truth or Dare</h1>
 
-<div class="player" id="playerTurn">Παίζει ο Παίκτης 1</div>
-<div class="round" id="roundText">Γύρος 1 • Difficulty 6/10</div>
+<div class="player" id="playerTurn"></div>
+<div class="round" id="roundText"></div>
 
-<div class="card" id="challenge">Διάλεξε Truth ή Dare</div>
+<div class="card" id="challenge">
+Διάλεξε Truth ή Dare
+</div>
 
 <button class="truth" onclick="getTruth()">Truth</button>
 <button class="dare" onclick="getDare()">Dare</button>
@@ -145,64 +142,69 @@ button{
 
 <script>
 
-let round = 1;
+/* PLAYERS */
 let currentPlayer = 1;
+
 const player1Name = "Παναγιώτης (smartest man alive)";
 const player2Name = "Ειρήνη (hottest girl alive)";
-/* QUESTIONS */
+
+/* GAME STATE */
+let round = 1;
+
+/* DATA */
 const truths = {
 6: [
-"Ποιο είναι το πιο βρώμικο πράγμα που έχεις σκεφτεί για μένα;",
-"Ποιο σημείο μου σε ελκύει πιο πολύ;",
-"Έχεις φανταστεί ποτέ κάτι μαζί μου;"
+"Ποιο είναι το πιο βρώμικο πράγμα που έχεις σκεφτεί για τον/την σύντροφό σου;",
+"Τι σε ελκύει πιο πολύ πάνω του/της;",
+"Έχεις φανταστεί ποτέ κάτι πιο τολμηρό μαζί του/της;"
 ],
 7: [
-"Ποια είναι η πιο τολμηρή σου φαντασίωση;",
-"Τι θα ήθελες να δοκιμάσουμε;",
-"Ποιο outfit σε ανάβει;"
+"Ποια είναι η πιο έντονη φαντασίωσή σου;",
+"Τι θα ήθελες να δοκιμάσετε μαζί;",
+"Τι σε ανάβει πιο πολύ;"
 ],
 8: [
-"Ποια είναι η πιο έντονη σκέψη σου για εμάς;",
-"Πού θα ήθελες να γίνει κάτι πιο risky;",
-"Τι θες να κάνω σε σένα;"
+"Ποια είναι η πιο risky σκέψη σου;",
+"Πού θα ήθελες να γίνει κάτι πιο έντονο;",
+"Τι δεν έχεις πει ποτέ;"
 ],
 9: [
 "Ποιο είναι το πιο άγριο που έχεις σκεφτεί;",
 "Πότε ένιωσες πιο δυνατή έλξη;",
-"Τι δεν έχεις πει ποτέ;"
+"Τι θα ήθελες να κάνεις χωρίς όρια;"
 ],
 10: [
-"Περιέγραψε τη πιο βρώμικη φαντασίωσή σου.",
-"Τι roleplay θες;",
-"Ποιο είναι το απόλυτο turn on σου;"
+"Περιέγραψε την πιο έντονη φαντασίωσή σου.",
+"Ποιο είναι το απόλυτο turn on σου;",
+"Τι θα έκανες αν δεν υπήρχαν όρια;"
 ]
 };
 
 const dares = {
 6: [
-"Φίλα με για 10 δευτερόλεπτα.",
-"Ψιθύρισέ μου κάτι.",
-"Κάτσε κοντά μου."
+"Φίλησε τον/την για 10 δευτερόλεπτα.",
+"Ψιθύρισε κάτι στο αυτί του/της.",
+"Κάτσε πολύ κοντά του/της."
 ],
 7: [
-"Κάνε μου massage.",
+"Κάνε αισθησιακό massage.",
 "Δείξε seductive look.",
-"Φίλα τον λαιμό μου."
+"Φίλησε τον λαιμό του/της."
 ],
 8: [
-"Χόρεψε για μένα.",
-"Κάνε μου tease.",
-"Πες τι θες να κάνουμε."
+"Χόρεψε για 20 δευτερόλεπτα.",
+"Κάνε έντονο tease.",
+"Πες τι θα ήθελες να γίνει τώρα."
 ],
 9: [
 "Βγάλε ένα ρούχο.",
-"Άσε με να σε οδηγήσω.",
+"Άφησέ τον/την να σε καθοδηγήσει για λίγο.",
 "Κάνε intense φιλί."
 ],
 10: [
-"Πες την πιο dirty σκέψη σου.",
-"Άσε με να διαλέξω εγώ.",
-"Extreme challenge."
+"Πες τη πιο βρώμικη σκέψη σου.",
+"Άφησε τον/την να αποφασίσει για σένα.",
+"Extreme challenge χωρίς όρια."
 ]
 };
 
@@ -217,18 +219,19 @@ return 10;
 
 /* UI */
 function updateUI(){
+
 const d = getDifficulty();
 
 document.getElementById("roundText").innerText =
 `Γύρος ${round} • Difficulty ${d}/10`;
 
+let name = currentPlayer === 1 ? player1Name : player2Name;
+
 document.getElementById("playerTurn").innerText =
-currentPlayer === 1
-? `Παίζει ο ${player1Name}`
-: `Παίζει ο ${player2Name}`;
+`Παίζει ο ${name}`;
 }
 
-/* FLOW */
+/* GAME FLOW */
 function nextTurn(){
 round++;
 currentPlayer = currentPlayer === 1 ? 2 : 1;
@@ -251,7 +254,7 @@ list[Math.floor(Math.random() * list.length)];
 nextTurn();
 }
 
-/* NAV */
+/* NAVIGATION */
 function startGame(){
 document.getElementById("home").classList.add("hidden");
 document.getElementById("game").classList.remove("hidden");
