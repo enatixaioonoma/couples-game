@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Couples Truth or Dare</title>
+
+<style>
+
+body{
+    margin:0;
+    font-family:Arial;
+    background:#0f0f0f;
+    color:white;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+    text-align:center;
+    padding:20px;
+}
+
+.container{
+    width:100%;
+    max-width:400px;
+}
+
+h1{
+    font-size:36px;
+    margin-bottom:10px;
+}
+
+.player{
+    font-size:22px;
+    margin-bottom:10px;
+    color:#ff4da6;
+}
+
+.round{
+    margin-bottom:20px;
+    opacity:0.8;
+}
+
+.card{
+    background:#1e1e1e;
+    border-radius:20px;
+    padding:30px;
+    min-height:140px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin-bottom:20px;
+    font-size:22px;
+}
+
+.buttons{
+    display:flex;
+    gap:15px;
+}
+
+button{
+    flex:1;
+    padding:18px;
+    border:none;
+    border-radius:15px;
+    font-size:20px;
+    color:white;
+    cursor:pointer;
+}
+
+.truth{
+    background:#3b82f6;
+}
+
+.dare{
+    background:#ef4444;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>Truth or Dare</h1>
+
+<div class="player" id="playerTurn">
+Παίζει ο Παίκτης 1
+</div>
+
+<div class="round" id="roundText">
+Γύρος 1 • Difficulty 6/10
+</div>
+
+<div class="card" id="challenge">
+Πάτα Truth ή Dare
+</div>
+
+<div class="buttons">
+<button class="truth" onclick="getTruth()">Truth</button>
+<button class="dare" onclick="getDare()">Dare</button>
+</div>
+
+</div>
+
+<script>
+
+let round = 1;
+let currentPlayer = 1;
+
+const truths = {
+
+6: [
+"Ποιο είναι το πιο βρώμικο πράγμα που έχεις σκεφτεί για μένα;",
+"Ποιο σημείο του σώματός μου σε ελκύει περισσότερο;",
+"Πότε ήταν η τελευταία φορά που φαντασιώθηκες κάτι μαζί μου;"
+],
+
+7: [
+"Ποια στάση θες να δοκιμάσουμε περισσότερο;",
+"Ποιο είναι το πιο τολμηρό πράγμα που θα ήθελες να κάνουμε μαζί;",
+"Ποιο είναι το πιο sexy outfit που θες να φορέσω;"
+],
+
+8: [
+"Ποια είναι η πιο έντονη φαντασίωσή σου μαζί μου;",
+"Πού θα ήθελες να κάνουμε κάτι risky μαζί;",
+"Τι θα ήθελες να κάνω περισσότερο στο κρεβάτι;"
+],
+
+9: [
+"Ποιο είναι το πιο άγριο πράγμα που θες να δοκιμάσουμε;",
+"Ποια στιγμή μαζί μου σε έχει ανάψει περισσότερο;",
+"Τι δεν μου έχεις πει ποτέ αλλά θες να κάνουμε;"
+],
+
+10: [
+"Περιέγραψε λεπτομερώς την πιο βρώμικη σκέψη σου για εμάς.",
+"Ποιο roleplay θες να δοκιμάσουμε;",
+"Ποιο είναι το απόλυτο turn on σου μαζί μου;"
+]
+
+};
+
+const dares = {
+
+6: [
+"Φίλα με για 10 δευτερόλεπτα.",
+"Ψιθύρισέ μου κάτι προκλητικό.",
+"Κάτσε στην αγκαλιά μου για τον επόμενο γύρο."
+],
+
+7: [
+"Κάνε μου αισθησιακό massage για 30 δευτερόλεπτα.",
+"Δείξε μου το πιο seductive βλέμμα σου.",
+"Φίλα τον λαιμό μου."
+],
+
+8: [
+"Δάγκωσέ με απαλά κάπου που διαλέγεις.",
+"Χόρεψε αισθησιακά για 20 δευτερόλεπτα.",
+"Πες μου ακριβώς τι θα ήθελες να κάνουμε απόψε."
+],
+
+9: [
+"Βγάλε ένα ρούχο.",
+"Κλείσε τα μάτια μου και κάνε ό,τι θες για 20 δευτερόλεπτα.",
+"Κάνε μου το πιο intense φιλί σου."
+],
+
+10: [
+"Άφησέ με να διαλέξω τι θα κάνεις για τον επόμενο γύρο.",
+"Πες την πιο βρώμικη σκέψη σου δυνατά.",
+"Κάνε ένα extremely teasing challenge."
+]
+
+};
+
+function getDifficulty(){
+
+if(round <= 3) return 6;
+if(round <= 6) return 7;
+if(round <= 9) return 8;
+if(round <= 12) return 9;
+
+return 10;
+
+}
+
+function updateUI(){
+
+const difficulty = getDifficulty();
+
+document.getElementById("roundText").innerText =
+`Γύρος ${round} • Difficulty ${difficulty}/10`;
+
+document.getElementById("playerTurn").innerText =
+`Παίζει ο Παίκτης ${currentPlayer}`;
+
+}
+
+function nextTurn(){
+
+round++;
+
+currentPlayer = currentPlayer === 1 ? 2 : 1;
+
+updateUI();
+
+}
+
+function getTruth(){
+
+const difficulty = getDifficulty();
+
+const list = truths[difficulty];
+
+const random =
+list[Math.floor(Math.random() * list.length)];
+
+document.getElementById("challenge").innerText = random;
+
+nextTurn();
+
+}
+
+function getDare(){
+
+const difficulty = getDifficulty();
+
+const list = dares[difficulty];
+
+const random =
+list[Math.floor(Math.random() * list.length)];
+
+document.getElementById("challenge").innerText = random;
+
+nextTurn();
+
+}
+
+updateUI();
+
+</script>
+
+</body>
+</html>
