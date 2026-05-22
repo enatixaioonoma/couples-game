@@ -147,7 +147,8 @@ button{
 
 let round = 1;
 let currentPlayer = 1;
-
+const player1Name = "Παναγιώτης (smartest man alive)";
+const player2Name = "Ειρήνη (hottest girl alive)";
 /* QUESTIONS */
 const truths = {
 6: [
@@ -222,7 +223,9 @@ document.getElementById("roundText").innerText =
 `Γύρος ${round} • Difficulty ${d}/10`;
 
 document.getElementById("playerTurn").innerText =
-`Παίζει ο Παίκτης ${currentPlayer}`;
+currentPlayer === 1
+? `Παίζει ο ${player1Name}`
+: `Παίζει ο ${player2Name}`;
 }
 
 /* FLOW */
