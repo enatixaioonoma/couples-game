@@ -7,6 +7,7 @@
 <title>Couples Game Hub</title>
 
 <style>
+
 body{
     margin:0;
     font-family:Arial;
@@ -20,45 +21,52 @@ body{
     padding:20px;
 }
 
+/* screens */
+.hidden{ display:none; }
+
 .container{
     width:100%;
     max-width:420px;
 }
 
-h1{
-    font-size:34px;
-    margin-bottom:20px;
+/* HOME MENU */
+.menuGrid{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap:15px;
+    margin-top:20px;
 }
 
-button{
-    width:100%;
-    padding:18px;
-    margin:10px 0;
-    border:none;
-    border-radius:15px;
+.menuBox{
+    background:#1e1e1e;
+    border-radius:18px;
+    height:120px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
     font-size:18px;
     cursor:pointer;
+    transition:0.2s;
 }
 
-.menuBtn{
-    background:#3b82f6;
-    color:white;
+.menuBox:active{
+    transform:scale(0.96);
 }
 
-.backBtn{
-    background:#444;
-    color:white;
-    margin-top:10px;
+.box1{background:#3b82f6;}
+.box2{background:#ef4444;}
+.box3{background:#22c55e;}
+.box4{background:#a855f7;}
+
+/* GAME */
+.player{
+    color:#ff4da6;
+    margin-bottom:5px;
 }
 
-.truth{
-    background:#3b82f6;
-    color:white;
-}
-
-.dare{
-    background:#ef4444;
-    color:white;
+.round{
+    opacity:0.8;
+    margin-bottom:10px;
 }
 
 .card{
@@ -73,48 +81,65 @@ button{
     font-size:20px;
 }
 
-.player{
-    color:#ff4da6;
-    margin-bottom:5px;
+button{
+    width:100%;
+    padding:16px;
+    margin:8px 0;
+    border:none;
+    border-radius:14px;
+    font-size:18px;
+    cursor:pointer;
 }
 
-.round{
-    opacity:0.8;
-    margin-bottom:10px;
-}
+.truth{ background:#3b82f6; color:white; }
+.dare{ background:#ef4444; color:white; }
+.back{ background:#444; color:white; }
 
-.hidden{
-    display:none;
-}
 </style>
 </head>
 
 <body>
 
-<div class="container">
+<!-- HOME -->
+<div id="home" class="container">
 
-<!-- HOME MENU -->
-<div id="home">
-    <h1>Couples Game Hub</h1>
-    <button class="menuBtn" onclick="startGame()">Truth or Dare</button>
+<h1>Couples Game Hub</h1>
+
+<div class="menuGrid">
+
+    <div class="menuBox box1" onclick="startGame()">
+        Truth or Dare
+    </div>
+
+    <div class="menuBox box2">
+        Never Have I Ever
+    </div>
+
+    <div class="menuBox box3">
+        Spicy Questions
+    </div>
+
+    <div class="menuBox box4">
+        Coming Soon
+    </div>
+
 </div>
 
-<!-- GAME SCREEN -->
-<div id="game" class="hidden">
-
-    <h1>Truth or Dare</h1>
-
-    <div class="player" id="playerTurn">Παίζει ο Παίκτης 1</div>
-    <div class="round" id="roundText">Γύρος 1 • Difficulty 6/10</div>
-
-    <div class="card" id="challenge">Διάλεξε Truth ή Dare</div>
-
-    <button class="truth" onclick="getTruth()">Truth</button>
-    <button class="dare" onclick="getDare()">Dare</button>
-
-    <button class="backBtn" onclick="backHome()">Back</button>
-
 </div>
+
+<!-- GAME -->
+<div id="game" class="container hidden">
+
+<h1>Truth or Dare</h1>
+
+<div class="player" id="playerTurn">Παίζει ο Παίκτης 1</div>
+<div class="round" id="roundText">Γύρος 1 • Difficulty 6/10</div>
+
+<div class="card" id="challenge">Διάλεξε Truth ή Dare</div>
+
+<button class="truth" onclick="getTruth()">Truth</button>
+<button class="dare" onclick="getDare()">Dare</button>
+<button class="back" onclick="backHome()">Back</button>
 
 </div>
 
@@ -123,30 +148,31 @@ button{
 let round = 1;
 let currentPlayer = 1;
 
+/* QUESTIONS */
 const truths = {
 6: [
 "Ποιο είναι το πιο βρώμικο πράγμα που έχεις σκεφτεί για μένα;",
-"Ποιο σημείο του σώματός μου σε ελκύει περισσότερο;",
-"Πότε ήταν η τελευταία φορά που φαντασιώθηκες κάτι μαζί μου;"
+"Ποιο σημείο μου σε ελκύει πιο πολύ;",
+"Έχεις φανταστεί ποτέ κάτι μαζί μου;"
 ],
 7: [
-"Ποια στάση θες να δοκιμάσουμε;",
-"Ποιο είναι το πιο τολμηρό πράγμα που θες;",
-"Ποιο είναι το πιο sexy outfit που θες να δω;"
+"Ποια είναι η πιο τολμηρή σου φαντασίωση;",
+"Τι θα ήθελες να δοκιμάσουμε;",
+"Ποιο outfit σε ανάβει;"
 ],
 8: [
-"Ποια είναι η πιο έντονη φαντασίωσή σου;",
-"Πού θα ήθελες να το κάνουμε πιο risky;",
-"Τι θες να κάνουμε περισσότερο;"
+"Ποια είναι η πιο έντονη σκέψη σου για εμάς;",
+"Πού θα ήθελες να γίνει κάτι πιο risky;",
+"Τι θες να κάνω σε σένα;"
 ],
 9: [
-"Ποιο είναι το πιο άγριο πράγμα που θες;",
-"Πότε ένιωσες πιο έντονη έλξη για μένα;",
+"Ποιο είναι το πιο άγριο που έχεις σκεφτεί;",
+"Πότε ένιωσες πιο δυνατή έλξη;",
 "Τι δεν έχεις πει ποτέ;"
 ],
 10: [
-"Περιέγραψε τη πιο βρώμικη σκέψη σου.",
-"Ποιο roleplay θες;",
+"Περιέγραψε τη πιο βρώμικη φαντασίωσή σου.",
+"Τι roleplay θες;",
 "Ποιο είναι το απόλυτο turn on σου;"
 ]
 };
@@ -155,30 +181,31 @@ const dares = {
 6: [
 "Φίλα με για 10 δευτερόλεπτα.",
 "Ψιθύρισέ μου κάτι.",
-"Κάτσε πάνω μου για λίγο."
+"Κάτσε κοντά μου."
 ],
 7: [
-"Κάνε αισθησιακό massage.",
+"Κάνε μου massage.",
 "Δείξε seductive look.",
 "Φίλα τον λαιμό μου."
 ],
 8: [
-"Κάνε tease κίνηση.",
-"Χόρεψε για 20 δευτερόλεπτα.",
+"Χόρεψε για μένα.",
+"Κάνε μου tease.",
 "Πες τι θες να κάνουμε."
 ],
 9: [
 "Βγάλε ένα ρούχο.",
-"Κλείσε μάτια και άσε με να σε οδηγήσω.",
+"Άσε με να σε οδηγήσω.",
 "Κάνε intense φιλί."
 ],
 10: [
-"Πες πιο dirty σκέψη.",
+"Πες την πιο dirty σκέψη σου.",
 "Άσε με να διαλέξω εγώ.",
-"Extreme tease challenge."
+"Extreme challenge."
 ]
 };
 
+/* DIFFICULTY */
 function getDifficulty(){
 if(round <= 3) return 6;
 if(round <= 6) return 7;
@@ -187,16 +214,18 @@ if(round <= 12) return 9;
 return 10;
 }
 
+/* UI */
 function updateUI(){
-const difficulty = getDifficulty();
+const d = getDifficulty();
 
 document.getElementById("roundText").innerText =
-`Γύρος ${round} • Difficulty ${difficulty}/10`;
+`Γύρος ${round} • Difficulty ${d}/10`;
 
 document.getElementById("playerTurn").innerText =
 `Παίζει ο Παίκτης ${currentPlayer}`;
 }
 
+/* FLOW */
 function nextTurn(){
 round++;
 currentPlayer = currentPlayer === 1 ? 2 : 1;
@@ -219,6 +248,7 @@ list[Math.floor(Math.random() * list.length)];
 nextTurn();
 }
 
+/* NAV */
 function startGame(){
 document.getElementById("home").classList.add("hidden");
 document.getElementById("game").classList.remove("hidden");
@@ -231,6 +261,7 @@ document.getElementById("home").classList.remove("hidden");
 
 round = 1;
 currentPlayer = 1;
+
 document.getElementById("challenge").innerText =
 "Διάλεξε Truth ή Dare";
 }
